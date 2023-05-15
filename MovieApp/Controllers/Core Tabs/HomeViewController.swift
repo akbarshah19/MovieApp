@@ -17,17 +17,12 @@ class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .secondarySystemBackground
-        let searchButton = UIBarButtonItem(image: UIImage(systemName: "magnifyingglass"),
-                                           style: .done,
-                                           target: self,
-                                           action: #selector(didTapSearch))
-        navigationItem.rightBarButtonItem = searchButton
         
         view.addSubview(tableView)
         tableView.delegate = self
         tableView.dataSource = self
         tableView.frame = view.bounds
-        
+        tableView.estimatedRowHeight = 300
         setUpTableHeader()
     }
 
@@ -47,26 +42,25 @@ class HomeViewController: UIViewController {
         }
     }
     
-    @objc private func didTapSearch() {
-        let vc = SearchViewController()
-        let nav = UINavigationController(rootViewController: vc)
-        present(nav, animated: true)
-    }
-    
     private func setUpTableHeader() {
-        let headerView = UIView(frame: CGRect(x: 0, y: 0, width: view.width, height: view.height/3.5))
-        headerView.clipsToBounds = true
-        tableView.tableHeaderView = headerView
-        
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .horizontal
-        layout.itemSize = CGSize(width: headerView.width - 20, height: headerView.height - 20)
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.frame = CGRect(x: 10, y: 10, width: headerView.width - 20, height: headerView.height - 20)
-        collectionView.register(HomeCollectionViewCell.self, forCellWithReuseIdentifier: HomeCollectionViewCell.identifier)
-        collectionView.delegate = self
-        collectionView.dataSource = self
-        headerView.addSubview(collectionView)
+        let searchBar = UISearchBar(frame: CGRect(x: 0, y: 0, width: view.width, height: 50))
+        searchBar.delegate = self
+        searchBar.backgroundImage = UIImage()
+        searchBar.placeholder = "Search movies"
+        tableView.tableHeaderView = searchBar
+//        let headerView = UIView(frame: CGRect(x: 0, y: 0, width: view.width, height: view.height/3.5))
+//        headerView.clipsToBounds = true
+//        tableView.tableHeaderView = headerView
+//
+//        let layout = UICollectionViewFlowLayout()
+//        layout.scrollDirection = .horizontal
+//        layout.itemSize = CGSize(width: headerView.width - 20, height: headerView.height - 20)
+//        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+//        collectionView.frame = CGRect(x: 10, y: 10, width: headerView.width - 20, height: headerView.height - 20)
+//        collectionView.register(HomeCollectionViewCell.self, forCellWithReuseIdentifier: HomeCollectionViewCell.identifier)
+//        collectionView.delegate = self
+//        collectionView.dataSource = self
+//        headerView.addSubview(collectionView)
     }
 }
 
@@ -89,10 +83,13 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
             cell.configure(with: model)
         } else if indexPath.row == 1 {
             cell.label.text = "Most Popular TVs"
+            cell.configure(with: model)
         } else if indexPath.row == 2 {
             cell.label.text = "Coming Soon"
+            cell.configure(with: model)
         } else if indexPath.row == 3 {
             cell.label.text = "In Theaters"
+            cell.configure(with: model)
         }
         
         return cell
@@ -123,5 +120,14 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
 extension HomeViewController: HomeTableViewCellDelegate {
     func didTapSeeAll() {
         print("See All tapped!")
+    }
+}
+
+extension HomeViewController: UISearchBarDelegate {
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        let vc = SearchViewController()
+        let nav = UINavigationController(rootViewController: vc)
+        nav.modalPresentationStyle = .fullScreen
+        present(nav, animated: true)
     }
 }

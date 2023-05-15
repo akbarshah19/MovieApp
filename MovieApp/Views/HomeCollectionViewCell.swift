@@ -27,11 +27,11 @@ class HomeCollectionViewCell: UICollectionViewCell {
         imageView.layer.masksToBounds = true
     }
     
-    func configure(with model: HomeModelList) {
-        guard let image = model.image else {
+    func configure(with imageUrl: String) {
+        guard !imageUrl.isEmpty else {
             return
         }
-        imageView.sd_setImage(with: URL(string: image))
+        imageView.sd_setImage(with: URL(string: imageUrl))
     }
     
     required init?(coder: NSCoder) {

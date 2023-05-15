@@ -92,7 +92,7 @@ class HomeTableViewCell: UITableViewCell, UICollectionViewDelegate, UICollection
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HomeCollectionViewCell.identifier,
                                                       for: indexPath) as! HomeCollectionViewCell
-        cell.configure(with: models[indexPath.row])
+        cell.configure(with: models[indexPath.row].image)
         return cell
     }
     

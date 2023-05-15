@@ -9,6 +9,7 @@ import UIKit
 
 class SearchViewController: UIViewController {
     
+    let const = Constants()
     let searchBar = UISearchBar()
     
     private let tableView: UITableView = {
@@ -32,28 +33,31 @@ class SearchViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         
-        setUpDragButton()
-        setUpTableHeader()
+        setUpSearchBar()
     }
     
-    private func setUpDragButton() {
-        let dragButton = UIButton()
-        dragButton.frame = CGRect(x: 0, y: 0, width: 50, height: 30)
-        dragButton.setImage(UIImage(systemName: "chevron.compact.down",
-                                    withConfiguration: UIImage.SymbolConfiguration(pointSize: 45)),
-                                    for: .normal)
-        dragButton.addTarget(self, action: #selector(didTapDismiss), for: .touchUpInside)
-        navigationItem.titleView = dragButton
-    }
-    
-    private func setUpTableHeader() {
+    private func setUpSearchBar() {
         searchBar.frame = CGRect(x: 0, y: 0, width: view.width, height: 50)
+        searchBar.delegate = self
+        searchBar.returnKeyType = .search
+        searchBar.showsCancelButton = true
         searchBar.placeholder = "Search"
-        tableView.tableHeaderView = searchBar
+        navigationItem.titleView = searchBar
     }
     
-    func fetchData() {
-        
+    func fetchData(for text: String) {
+        URLSession.shared.request(url: URL(string: const.searchMovieUrl(name: text)),
+                                  expecting: [SearchCellModel].self) { [weak self] result in
+            switch result {
+            case .success(let result):
+                DispatchQueue.main.async {
+                    print(result)
+                    self?.tableView.reloadData()
+                }
+            case .failure(let error):
+                print(error)
+            }
+        }
     }
     
     @objc func didTapDismiss() {
@@ -74,5 +78,11 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 100
+    }
+}
+
+extension SearchViewController: UISearchBarDelegate {
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        dismiss(animated: true)
     }
 }

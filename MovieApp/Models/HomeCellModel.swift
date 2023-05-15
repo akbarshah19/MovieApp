@@ -13,5 +13,5 @@ struct HomeCellModel: Codable {
 
 struct HomeModelList: Codable {
     var id: String
-    var image: String?
+    var image: String
 }
