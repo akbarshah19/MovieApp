@@ -30,10 +30,27 @@ class HomeViewController: UIViewController {
         
         setUpTableHeader()
     }
+
+    /// Generic API request
+    func fetch() {
+        URLSession.shared.request(url: URL(string: ""),
+                                  expecting: [HomeCellModel].self) { [weak self] result in
+            switch result {
+            case .success(let result):
+                DispatchQueue.main.async {
+                    print(result)
+                    self?.tableView.reloadData()
+                }
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
     
     @objc private func didTapSearch() {
         let vc = SearchViewController()
-        present(vc, animated: true)
+        let nav = UINavigationController(rootViewController: vc)
+        present(nav, animated: true)
     }
     
     private func setUpTableHeader() {
