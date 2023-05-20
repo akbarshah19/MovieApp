@@ -24,6 +24,12 @@ class HomeViewController: UIViewController {
         tableView.frame = view.bounds
         tableView.estimatedRowHeight = 300
         setUpTableHeader()
+        
+        let logoTitle = UILabel(frame: CGRect(x: 0, y: 0, width: 50, height: 35))
+        logoTitle.text = "MovieApp"
+        logoTitle.font = .systemFont(ofSize: 30, weight: .heavy)
+        logoTitle.textColor
+        navigationItem.titleView = logoTitle
     }
 
     /// Generic API request
@@ -48,19 +54,6 @@ class HomeViewController: UIViewController {
         searchBar.backgroundImage = UIImage()
         searchBar.placeholder = "Search movies"
         tableView.tableHeaderView = searchBar
-//        let headerView = UIView(frame: CGRect(x: 0, y: 0, width: view.width, height: view.height/3.5))
-//        headerView.clipsToBounds = true
-//        tableView.tableHeaderView = headerView
-//
-//        let layout = UICollectionViewFlowLayout()
-//        layout.scrollDirection = .horizontal
-//        layout.itemSize = CGSize(width: headerView.width - 20, height: headerView.height - 20)
-//        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-//        collectionView.frame = CGRect(x: 10, y: 10, width: headerView.width - 20, height: headerView.height - 20)
-//        collectionView.register(HomeCollectionViewCell.self, forCellWithReuseIdentifier: HomeCollectionViewCell.identifier)
-//        collectionView.delegate = self
-//        collectionView.dataSource = self
-//        headerView.addSubview(collectionView)
     }
 }
 

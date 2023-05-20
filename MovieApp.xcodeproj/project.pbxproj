@@ -81,6 +81,13 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		AD482BB62A18BC3900B961CD /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
 		ADF937342A0F88B0006EEFA0 = {
 			isa = PBXGroup;
 			children = (
@@ -135,6 +142,7 @@
 		ADF9375E2A0F902F006EEFA0 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				AD482BB62A18BC3900B961CD /* Fonts */,
 				ADF937402A0F88B0006EEFA0 /* AppDelegate.swift */,
 				ADF937422A0F88B0006EEFA0 /* SceneDelegate.swift */,
 				ADF937612A0F935E006EEFA0 /* Extensions.swift */,

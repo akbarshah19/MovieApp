@@ -15,6 +15,7 @@ class SearchViewController: UIViewController {
     private let tableView: UITableView = {
         let table = UITableView()
         table.register(SearchTableViewCell.self, forCellReuseIdentifier: SearchTableViewCell.identifier)
+        table.backgroundColor = .secondarySystemBackground
         return table
     }()
     
@@ -46,12 +47,18 @@ class SearchViewController: UIViewController {
     }
     
     func fetchData(for text: String) {
-        URLSession.shared.request(url: URL(string: const.searchMovieUrl(name: text)),
-                                  expecting: [SearchCellModel].self) { [weak self] result in
+        URLSession.shared.request(url: URL(string: const.searchMovieUrl(for: text)),
+                                  expecting: SearchCellModel.self) { [weak self] result in
             switch result {
             case .success(let result):
+                var model = [SeaarchModelList]()
+                for i in result.results {
+                    let sampleModel = SeaarchModelList(id: i.id, image: i.image, title: i.title)
+                    model.append(sampleModel)
+                }
+                
                 DispatchQueue.main.async {
-                    print(result)
+                    self?.model = model
                     self?.tableView.reloadData()
                 }
             case .failure(let error):
@@ -73,6 +80,7 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: SearchTableViewCell.identifier, for: indexPath) as! SearchTableViewCell
         cell.configure(with: model[indexPath.row])
+        cell.accessoryType = .disclosureIndicator
         return cell
     }
     
@@ -82,6 +90,24 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
 }
 
 extension SearchViewController: UISearchBarDelegate {
+    func searchBarShouldEndEditing(_ searchBar: UISearchBar) -> Bool {
+        DispatchQueue.main.async {
+            if let cancelButton = searchBar.value(forKey: "cancelButton") as? UIButton {
+                cancelButton.isEnabled = true
+            }
+        }
+        return true
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        guard let text = searchBar.text else {
+            return
+        }
+        print(text)
+        fetchData(for: text)
+        searchBar.endEditing(true)
+    }
+    
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         dismiss(animated: true)
     }

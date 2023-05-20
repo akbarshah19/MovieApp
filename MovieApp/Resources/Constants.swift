@@ -11,6 +11,7 @@ let key = "k_ljm3817b" //ciphertheworld@gmail.com
 //let key = "k_a4y18vpg" ////cyphertheworld2@gmail.com
 
 struct Constants {
+    
     let mostPopularUrl = "https://imdb-api.com/en/API/MostPopularMovies/\(key)"
     let mostPopularTVsUrl = "https://imdb-api.com/en/API/MostPopularTVs/\(key)"
     let comingSoon = "https://imdb-api.com/en/API/ComingSoon/\(key)"
@@ -23,8 +24,8 @@ struct Constants {
         return "https://imdb-api.com/en/API/Title/\(key)/\(id)/FullActor,Posters,Images,Trailer,Ratings,"
     }
     
-    func searchMovieUrl(name: String) -> String {
-        return "https://imdb-api.com/en/API/Search/\(key)/\(name)"
+    func searchMovieUrl(for text: String) -> String {
+        return "https://imdb-api.com/en/API/Search/\(key)/\(text)"
     }
     
     func movieTrailerUrl(id: String) -> String {

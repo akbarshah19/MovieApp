@@ -14,18 +14,20 @@ class SearchTableViewCell: UITableViewCell {
     public var cellPicture: UIImageView = {
         let image = UIImageView()
         image.clipsToBounds = true
-        image.image = UIImage(systemName: "star")
+        image.layer.masksToBounds = true
+        image.layer.cornerRadius = 8
         return image
     }()
     
     private let cellLabel: UILabel = {
         let label = UILabel()
-        label.text = "Label"
+        
         return label
     }()
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        contentView.backgroundColor = .secondarySystemBackground
         clipsToBounds = true
         contentView.addSubview(cellPicture)
         contentView.addSubview(cellLabel)
