@@ -33,7 +33,7 @@ class HomeViewController: UIViewController {
     }
 
     /// Generic API request
-    func fetch() {
+    func fetchData() {
         URLSession.shared.request(url: URL(string: ""),
                                   expecting: [HomeCellModel].self) { [weak self] result in
             switch result {
