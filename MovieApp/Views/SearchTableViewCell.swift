@@ -27,7 +27,6 @@ class SearchTableViewCell: UITableViewCell {
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        contentView.backgroundColor = .secondarySystemBackground
         clipsToBounds = true
         contentView.addSubview(cellPicture)
         contentView.addSubview(cellLabel)

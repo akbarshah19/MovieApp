@@ -13,7 +13,7 @@ class HomeViewController: UIViewController {
         table.register(HomeTableViewCell.self, forCellReuseIdentifier: HomeTableViewCell.identifier)
         return table
     }()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .secondarySystemBackground
@@ -28,7 +28,6 @@ class HomeViewController: UIViewController {
         let logoTitle = UILabel(frame: CGRect(x: 0, y: 0, width: 50, height: 35))
         logoTitle.text = "MovieApp"
         logoTitle.font = .systemFont(ofSize: 30, weight: .heavy)
-        logoTitle.textColor
         navigationItem.titleView = logoTitle
     }
 

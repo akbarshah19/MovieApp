@@ -10,6 +10,8 @@
 		A22AE574ED1C19818170AF86 /* Pods_MovieApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEC34B3F5B42BC8E0CC5030D /* Pods_MovieApp.framework */; };
 		AD18D27C2A19FB5F00C81543 /* TopTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD18D27B2A19FB5F00C81543 /* TopTableViewCell.swift */; };
 		AD18D27E2A19FCEF00C81543 /* TopCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD18D27D2A19FCEF00C81543 /* TopCellModel.swift */; };
+		AD2D05982A27C88B000B33D9 /* MovieDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD2D05972A27C88B000B33D9 /* MovieDetailsViewController.swift */; };
+		AD2D059A2A27C8F0000B33D9 /* MovieModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD2D05992A27C8F0000B33D9 /* MovieModel.swift */; };
 		AD5717042A12668300034A2F /* SearchCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5717032A12668300034A2F /* SearchCellModel.swift */; };
 		AD5717062A1268CF00034A2F /* SearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5717052A1268CF00034A2F /* SearchTableViewCell.swift */; };
 		AD7E7E602A10C6CF000115E3 /* HomeCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD7E7E5F2A10C6CF000115E3 /* HomeCellModel.swift */; };
@@ -33,6 +35,8 @@
 		6EF29B339FCEA8495EC774BB /* Pods-MovieApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MovieApp.release.xcconfig"; path = "Target Support Files/Pods-MovieApp/Pods-MovieApp.release.xcconfig"; sourceTree = "<group>"; };
 		AD18D27B2A19FB5F00C81543 /* TopTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopTableViewCell.swift; sourceTree = "<group>"; };
 		AD18D27D2A19FCEF00C81543 /* TopCellModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopCellModel.swift; sourceTree = "<group>"; };
+		AD2D05972A27C88B000B33D9 /* MovieDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailsViewController.swift; sourceTree = "<group>"; };
+		AD2D05992A27C8F0000B33D9 /* MovieModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieModel.swift; sourceTree = "<group>"; };
 		AD5717032A12668300034A2F /* SearchCellModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCellModel.swift; sourceTree = "<group>"; };
 		AD5717052A1268CF00034A2F /* SearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTableViewCell.swift; sourceTree = "<group>"; };
 		AD7E7E5F2A10C6CF000115E3 /* HomeCellModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCellModel.swift; sourceTree = "<group>"; };
@@ -137,6 +141,7 @@
 			isa = PBXGroup;
 			children = (
 				ADF9375B2A0F8D16006EEFA0 /* SettingsViewController.swift */,
+				AD2D05972A27C88B000B33D9 /* MovieDetailsViewController.swift */,
 				AD84FC6C2A0FD7B30065653B /* SearchViewController.swift */,
 				ADF9375A2A0F89F7006EEFA0 /* Core Tabs */,
 			);
@@ -174,6 +179,7 @@
 				AD7E7E5F2A10C6CF000115E3 /* HomeCellModel.swift */,
 				AD5717032A12668300034A2F /* SearchCellModel.swift */,
 				AD18D27D2A19FCEF00C81543 /* TopCellModel.swift */,
+				AD2D05992A27C8F0000B33D9 /* MovieModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -294,11 +300,13 @@
 			files = (
 				ADF937592A0F89EB006EEFA0 /* TopViewController.swift in Sources */,
 				ADF937452A0F88B0006EEFA0 /* TabBarController.swift in Sources */,
+				AD2D05982A27C88B000B33D9 /* MovieDetailsViewController.swift in Sources */,
 				AD18D27E2A19FCEF00C81543 /* TopCellModel.swift in Sources */,
 				ADF9375C2A0F8D16006EEFA0 /* SettingsViewController.swift in Sources */,
 				AD84FC6D2A0FD7B30065653B /* SearchViewController.swift in Sources */,
 				ADF937622A0F935E006EEFA0 /* Extensions.swift in Sources */,
 				ADF937412A0F88B0006EEFA0 /* AppDelegate.swift in Sources */,
+				AD2D059A2A27C8F0000B33D9 /* MovieModel.swift in Sources */,
 				AD84FC712A0FDFC10065653B /* HomeCollectionViewCell.swift in Sources */,
 				AD18D27C2A19FB5F00C81543 /* TopTableViewCell.swift in Sources */,
 				ADAEC0812A10FCA2005F8E0F /* Constants.swift in Sources */,

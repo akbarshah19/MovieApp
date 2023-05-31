@@ -15,7 +15,6 @@ class SearchViewController: UIViewController {
     private let tableView: UITableView = {
         let table = UITableView()
         table.register(SearchTableViewCell.self, forCellReuseIdentifier: SearchTableViewCell.identifier)
-        table.backgroundColor = .secondarySystemBackground
         return table
     }()
     
@@ -28,7 +27,6 @@ class SearchViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .secondarySystemBackground
         view.addSubview(tableView)
         tableView.frame = view.bounds
         tableView.delegate = self
@@ -46,7 +44,7 @@ class SearchViewController: UIViewController {
         navigationItem.titleView = searchBar
     }
     
-    func fetchData(for text: String) {
+    private func fetchData(for text: String) {
         URLSession.shared.request(url: URL(string: const.searchMovieUrl(for: text)),
                                   expecting: SearchCellModel.self) { [weak self] result in
             switch result {
@@ -82,6 +80,11 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
         cell.configure(with: model[indexPath.row])
         cell.accessoryType = .disclosureIndicator
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        let vc = MovieDetailsViewController(model[indexPath.row].id)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
