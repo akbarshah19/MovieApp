@@ -20,9 +20,33 @@ class MovieDetailsViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    private var scrollView: UIScrollView = {
+        let view = UIScrollView()
+        return view
+    }()
+    
+    private var topView = MovieDetailsTopView()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        fetchData(for: id)
+        view.backgroundColor = .secondarySystemBackground
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "bookmark",
+                                                                           withConfiguration: UIImage.SymbolConfiguration(pointSize: 20,
+                                                                                                                          weight: .regular)),
+                                                            style: .done,
+                                                            target: self,
+                                                            action: #selector(didTapSave))
+//        fetchData(for: id)
+        addSubvies()
+    }
+    
+    private func addSubvies() {
+        view.addSubview(scrollView)
+        scrollView.addSubview(topView)
+    }
+    
+    @objc private func didTapSave() {
+        
     }
     
     private func fetchData(for id: String) {
@@ -38,5 +62,12 @@ class MovieDetailsViewController: UIViewController {
                 print(error)
             }
         }
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        scrollView.frame = view.bounds
+        scrollView.contentSize = CGSize(width: view.width, height: 1750)
+        topView.frame = CGRect(x: 0, y: -100, width: view.width, height: 800)
     }
 }

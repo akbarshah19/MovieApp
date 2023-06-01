@@ -29,6 +29,13 @@ class HomeViewController: UIViewController {
         logoTitle.text = "MovieApp"
         logoTitle.font = .systemFont(ofSize: 30, weight: .heavy)
         navigationItem.titleView = logoTitle
+        //test
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "t.circle"), style: .done, target: self, action: #selector(didTapTest))
+    }
+    
+    @objc private func didTapTest() {
+        let vc = MovieDetailsViewController("123")
+        navigationController?.pushViewController(vc, animated: true)
     }
 
     /// Generic API request
