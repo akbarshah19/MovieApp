@@ -8,5 +8,6 @@ target 'MovieApp' do
   # Pods for MovieApp
 
 pod 'SDWebImage'
+pod 'ShimmerSwift'
 
 end
