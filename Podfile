@@ -9,5 +9,6 @@ target 'MovieApp' do
 
 pod 'SDWebImage'
 pod 'ShimmerSwift'
+pod 'youtube-ios-player-helper'
 
 end

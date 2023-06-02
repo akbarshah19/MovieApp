@@ -6,8 +6,10 @@
 //
 
 import UIKit
+import youtube_ios_player_helper
+import SDWebImage
 
-class MovieDetailsViewController: UIViewController {
+class MovieDetailsViewController: UIViewController, YTPlayerViewDelegate {
     let const = Constants()
     let id: String
     
@@ -38,6 +40,15 @@ class MovieDetailsViewController: UIViewController {
         return table
     }()
     
+    private var trailerPlayer: YTPlayerView = {
+        let player = YTPlayerView()
+        player.layer.masksToBounds = true
+        player.layer.cornerRadius = 10
+        player.layer.borderColor = UIColor.red.cgColor
+        player.layer.borderWidth = 1
+        return player
+    }()
+    
     private var sections = [MovieInfoTableModel]() {
         didSet {
             var openedCount = 0
@@ -46,6 +57,7 @@ class MovieDetailsViewController: UIViewController {
                     openedCount += 1
                 }
                 infoTable.frame = CGRect(x: 0, y: ratingView.bottom + 5, width: view.width, height: CGFloat(200 + openedCount*200))
+                trailerPlayer.frame = CGRect(x: scrollView.left + 16, y: infoTable.bottom + 15, width: scrollView.width - 32, height: scrollView.width/2)
             }
         }
     }
@@ -60,6 +72,8 @@ class MovieDetailsViewController: UIViewController {
                                                             target: self,
                                                             action: #selector(didTapSave))
 //        fetchData(for: id)
+        trailerPlayer.load(withVideoId: "Jvurpf91omw")
+        
         appendModels()
         addSubviews()
         infoTable.delegate = self
@@ -71,6 +85,7 @@ class MovieDetailsViewController: UIViewController {
         scrollView.addSubview(topView)
         scrollView.addSubview(ratingView)
         scrollView.addSubview(infoTable)
+        scrollView.addSubview(trailerPlayer)
     }
     
     @objc private func didTapSave() {
@@ -85,6 +100,7 @@ class MovieDetailsViewController: UIViewController {
                 print(result)
                 DispatchQueue.main.async {
 //                    self?.model = model
+                    self?.trailerPlayer.load(withVideoId: "Jvurpf91omw")
                 }
             case .failure(let error):
                 print(error)
@@ -109,6 +125,7 @@ class MovieDetailsViewController: UIViewController {
         topView.frame = CGRect(x: 0, y: -100, width: view.width, height: 480)
         ratingView.frame = CGRect(x: 5, y: topView.bottom + 5, width: view.width - 10, height: 92)
         infoTable.frame = CGRect(x: 0, y: ratingView.bottom + 5, width: view.width, height: CGFloat(200))
+        trailerPlayer.frame = CGRect(x: scrollView.left + 16, y: infoTable.bottom + 15, width: scrollView.width - 32, height: scrollView.width/2)
     }
 }
 

@@ -3,20 +3,24 @@ PODS:
     - SDWebImage/Core (= 5.15.5)
   - SDWebImage/Core (5.15.5)
   - ShimmerSwift (2.1.1)
+  - youtube-ios-player-helper (1.0.4)
 
 DEPENDENCIES:
   - SDWebImage
   - ShimmerSwift
+  - youtube-ios-player-helper
 
 SPEC REPOS:
   trunk:
     - SDWebImage
     - ShimmerSwift
+    - youtube-ios-player-helper
 
 SPEC CHECKSUMS:
   SDWebImage: fd7e1a22f00303e058058278639bf6196ee431fe
   ShimmerSwift: f7ed2daf9c246de8299dfd9e12c6ab465cba9842
+  youtube-ios-player-helper: e9b97535e816db3152179d84d999bc1807ecd689
 
-PODFILE CHECKSUM: 1a6ffdff3681f0fe4e3897ab6e6d6d8b7c01aff4
+PODFILE CHECKSUM: 75ae6b478118eaa606f4efb2d45798801e975ab1
 
 COCOAPODS: 1.11.3
