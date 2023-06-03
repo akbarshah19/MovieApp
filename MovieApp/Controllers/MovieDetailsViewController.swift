@@ -40,24 +40,21 @@ class MovieDetailsViewController: UIViewController, YTPlayerViewDelegate {
         return table
     }()
     
-    private var trailerPlayer: YTPlayerView = {
-        let player = YTPlayerView()
-        player.layer.masksToBounds = true
-        player.layer.cornerRadius = 10
-        player.layer.borderColor = UIColor.red.cgColor
-        player.layer.borderWidth = 1
-        return player
-    }()
+    private var trailerView = MovieDetailsTrailerView()
+    private var similarsView = MovieDetailsSimilarsView()
     
+    var openedCount = 0
     private var sections = [MovieInfoTableModel]() {
         didSet {
-            var openedCount = 0
+            openedCount = 0
             for i in sections {
                 if i.isOpened {
                     openedCount += 1
                 }
+                scrollView.contentSize.height = CGFloat(1230 + 200*openedCount)
                 infoTable.frame = CGRect(x: 0, y: ratingView.bottom + 5, width: view.width, height: CGFloat(200 + openedCount*200))
-                trailerPlayer.frame = CGRect(x: scrollView.left + 16, y: infoTable.bottom + 15, width: scrollView.width - 32, height: scrollView.width/2)
+                trailerView.frame = CGRect(x: scrollView.left + 16, y: infoTable.bottom + 15, width: scrollView.width - 32, height: scrollView.width/2)
+                similarsView.frame = CGRect(x: 0, y: trailerView.bottom + 10, width: view.width, height: 300)
             }
         }
     }
@@ -72,7 +69,7 @@ class MovieDetailsViewController: UIViewController, YTPlayerViewDelegate {
                                                             target: self,
                                                             action: #selector(didTapSave))
 //        fetchData(for: id)
-        trailerPlayer.load(withVideoId: "Jvurpf91omw")
+        trailerView.trailerPlayer.load(withVideoId: "Jvurpf91omw")
         
         appendModels()
         addSubviews()
@@ -85,7 +82,8 @@ class MovieDetailsViewController: UIViewController, YTPlayerViewDelegate {
         scrollView.addSubview(topView)
         scrollView.addSubview(ratingView)
         scrollView.addSubview(infoTable)
-        scrollView.addSubview(trailerPlayer)
+        scrollView.addSubview(trailerView)
+        scrollView.addSubview(similarsView)
     }
     
     @objc private func didTapSave() {
@@ -100,7 +98,7 @@ class MovieDetailsViewController: UIViewController, YTPlayerViewDelegate {
                 print(result)
                 DispatchQueue.main.async {
 //                    self?.model = model
-                    self?.trailerPlayer.load(withVideoId: "Jvurpf91omw")
+                    
                 }
             case .failure(let error):
                 print(error)
@@ -116,16 +114,24 @@ class MovieDetailsViewController: UIViewController, YTPlayerViewDelegate {
             MovieInfoTableModel(title: "Directors", subTitle: [""]),
             MovieInfoTableModel(title: "Companies", subTitle: [""])
         ]
+        
+        let model = [HomeModelList(id: "123", image:
+                         "https://m.media-amazon.com/images/M/MV5BMDgxOTdjMzYtZGQxMS00ZTAzLWI4Y2UtMTQzN2VlYjYyZWRiXkEyXkFqcGdeQXVyMTkxNjUyNQ@@._V1_Ratio0.6716_AL_.jpg"),
+                     HomeModelList(id: "123", image: "https://m.media-amazon.com/images/M/MV5BMDgxOTdjMzYtZGQxMS00ZTAzLWI4Y2UtMTQzN2VlYjYyZWRiXkEyXkFqcGdeQXVyMTkxNjUyNQ@@._V1_Ratio0.6716_AL_.jpg"),
+                     HomeModelList(id: "123", image: "https://m.media-amazon.com/images/M/MV5BMDgxOTdjMzYtZGQxMS00ZTAzLWI4Y2UtMTQzN2VlYjYyZWRiXkEyXkFqcGdeQXVyMTkxNjUyNQ@@._V1_Ratio0.6716_AL_.jpg"),
+                     ]
+        similarsView.configure(models: model)
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         scrollView.frame = view.bounds
-        scrollView.contentSize = CGSize(width: view.width, height: 1750)
+        scrollView.contentSize = CGSize(width: view.width, height: 1230)
         topView.frame = CGRect(x: 0, y: -100, width: view.width, height: 480)
         ratingView.frame = CGRect(x: 5, y: topView.bottom + 5, width: view.width - 10, height: 92)
         infoTable.frame = CGRect(x: 0, y: ratingView.bottom + 5, width: view.width, height: CGFloat(200))
-        trailerPlayer.frame = CGRect(x: scrollView.left + 16, y: infoTable.bottom + 15, width: scrollView.width - 32, height: scrollView.width/2)
+        trailerView.frame = CGRect(x: 0, y: infoTable.bottom + 15, width: scrollView.width, height: scrollView.width/2)
+        similarsView.frame = CGRect(x: 0, y: trailerView.bottom + 10, width: view.width, height: 300)
     }
 }
 
