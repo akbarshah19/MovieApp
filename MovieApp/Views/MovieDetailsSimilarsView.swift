@@ -7,7 +7,12 @@
 
 import UIKit
 
+protocol MovieDetailsSimilarsViewDelegate: AnyObject {
+    func didTapSeeAll(models: [HomeModelList])
+}
+
 class MovieDetailsSimilarsView: UIView, UITableViewDelegate, UITableViewDataSource {
+    weak var delegate: MovieDetailsSimilarsViewDelegate?
     
     let tableView: UITableView = {
         let table = UITableView()
@@ -70,6 +75,11 @@ class MovieDetailsSimilarsView: UIView, UITableViewDelegate, UITableViewDataSour
             cell.configure(with: models)
         }
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        delegate?.didTapSeeAll(models: models)
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

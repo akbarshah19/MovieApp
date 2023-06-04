@@ -7,6 +7,7 @@
 
 import UIKit
 import SDWebImage
+import SafariServices
 
 class MovieDetailsViewController: UIViewController {
     let const = Constants()
@@ -66,6 +67,8 @@ class MovieDetailsViewController: UIViewController {
         infoTable.delegate = self
         infoTable.dataSource = self
         addSubviews()
+        topView.delegate = self
+        similarsView.delegate = self
     }
     
     private func addSubviews() {
@@ -215,5 +218,23 @@ extension MovieDetailsViewController: UITableViewDelegate, UITableViewDataSource
             return 120
         }
         return 40
+    }
+}
+
+extension MovieDetailsViewController: MovieDetailsTopViewDelegate {
+    func didTapWatchNow(link: String?) {
+        guard let link = link else {
+            return
+        }
+        let url = URL(string: link)
+        let vc = SFSafariViewController(url: url!)
+        present(vc, animated: true)
+    }
+}
+
+extension MovieDetailsViewController: MovieDetailsSimilarsViewDelegate {
+    func didTapSeeAll(models: [HomeModelList]) {
+        let vc = ListViewController(models: models)
+        navigationController?.pushViewController(vc, animated: true)
     }
 }

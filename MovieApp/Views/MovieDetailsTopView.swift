@@ -8,7 +8,13 @@
 import UIKit
 import ShimmerSwift
 
+protocol MovieDetailsTopViewDelegate: AnyObject {
+    func didTapWatchNow(link: String?)
+}
+
 class MovieDetailsTopView: UIView {
+    weak var delegate: MovieDetailsTopViewDelegate?
+    
     let backgroundImage = UIImageView()
     
     let movieImage: UIImageView = {
@@ -18,33 +24,29 @@ class MovieDetailsTopView: UIView {
         image.layer.borderWidth = 1
         image.layer.masksToBounds = true
         image.clipsToBounds = true
-        image.layer.cornerRadius = 8
+        image.layer.cornerRadius = 12
         return image
     }()
     
     let movieLabel: UILabel = {
         let label = UILabel()
-        label.text = "Movie"
+        label.text = "-"
         label.textAlignment = .center
         label.font = .systemFont(ofSize: 30, weight: .heavy)
-//        label.layer.borderColor = UIColor.red.cgColor
-//        label.layer.borderWidth = 1
         return label
     }()
     
     let genreLabel: UILabel = {
         let label = UILabel()
-        label.text = "Action, Triller, Horror"
+        label.text = "-"
         label.textAlignment = .center
         label.font = .systemFont(ofSize: 14, weight: .regular)
-//        label.layer.borderColor = UIColor.red.cgColor
-//        label.layer.borderWidth = 1
         return label
     }()
     
     let releaseLabel: UILabel = {
         let label = UILabel()
-        label.text = "2023"
+        label.text = "-"
         label.textAlignment = .center
         label.font = .systemFont(ofSize: 14, weight: .regular)
         return label
@@ -52,7 +54,7 @@ class MovieDetailsTopView: UIView {
     
     let runtimeLabel: UILabel = {
         let label = UILabel()
-        label.text = "1 h 30 min"
+        label.text = "-"
         label.textAlignment = .center
         label.font = .systemFont(ofSize: 14, weight: .regular)
         return label
@@ -62,7 +64,7 @@ class MovieDetailsTopView: UIView {
         let button = UIButton()
         button.layer.masksToBounds = true
         button.layer.cornerRadius = 10
-        button.backgroundColor = .red
+        button.backgroundColor = .secondaryLabel
         button.setTitle("Watch Now", for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 20, weight: .semibold)
@@ -75,7 +77,7 @@ class MovieDetailsTopView: UIView {
         shimmer.shimmerLayer?.masksToBounds = true
         shimmer.shimmerLayer?.cornerRadius = 10
         shimmer.backgroundColor = .white
-        shimmer.isShimmering = true
+        shimmer.isShimmering = false
         shimmer.shimmerSpeed = 20
         shimmer.shimmerPauseDuration = 1
         return shimmer
@@ -87,8 +89,10 @@ class MovieDetailsTopView: UIView {
         backgroundColor = .systemBackground
         addSubviews()
         shimmerButton.contentView = watchButton
+        watchButton.addTarget(self, action: #selector(watchButtonPressed), for: .touchUpInside)
     }
     
+    private var watchLink: String? = nil
     func configure(with model: MovieModel) {
         if let bgImageUrl = model.posters?.backdrops?.first?.link {
             backgroundImage.sd_setImage(with: URL(string: bgImageUrl))
@@ -125,10 +129,20 @@ class MovieDetailsTopView: UIView {
         } else {
             releaseLabel.text = "-"
         }
+        
+        if let link = model.trailer?.link {
+            watchLink = link
+            watchButton.backgroundColor = .red
+            shimmerButton.isShimmering = true
+        }
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    @objc private func watchButtonPressed() {
+        delegate?.didTapWatchNow(link: watchLink)
     }
     
     func addSubviews() {
