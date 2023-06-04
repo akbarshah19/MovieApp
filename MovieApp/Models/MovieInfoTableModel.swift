@@ -9,7 +9,7 @@ import Foundation
 
 struct MovieInfoTableModel {
     let title: String
-    let subTitle: [String]
+    var subTitle: [String]
     var isOpened: Bool
     
     init(title: String, subTitle: [String], isOpened: Bool = false) {

@@ -12,6 +12,7 @@ class TabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpControllers()
+        view.tintColor = .systemPink
     }
 
     private func setUpControllers() {

@@ -6,11 +6,11 @@
 //
 
 import UIKit
-import youtube_ios_player_helper
 import SDWebImage
 
-class MovieDetailsViewController: UIViewController, YTPlayerViewDelegate {
+class MovieDetailsViewController: UIViewController {
     let const = Constants()
+    
     let id: String
     
     init(_ id: String) {
@@ -35,8 +35,6 @@ class MovieDetailsViewController: UIViewController, YTPlayerViewDelegate {
         table.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         table.register(MovieDetailsInfoTableViewCell.self, forCellReuseIdentifier: MovieDetailsInfoTableViewCell.identifier)
         table.isScrollEnabled = false
-        table.layer.borderWidth = 1
-        table.layer.borderColor = UIColor.red.cgColor
         return table
     }()
     
@@ -53,8 +51,8 @@ class MovieDetailsViewController: UIViewController, YTPlayerViewDelegate {
                 }
                 scrollView.contentSize.height = CGFloat(1230 + 200*openedCount)
                 infoTable.frame = CGRect(x: 0, y: ratingView.bottom + 5, width: view.width, height: CGFloat(200 + openedCount*200))
-                trailerView.frame = CGRect(x: scrollView.left + 16, y: infoTable.bottom + 15, width: scrollView.width - 32, height: scrollView.width/2)
-                similarsView.frame = CGRect(x: 0, y: trailerView.bottom + 10, width: view.width, height: 300)
+                trailerView.frame = CGRect(x: 0, y: infoTable.bottom, width: scrollView.width, height: scrollView.width/1.8)
+                similarsView.frame = CGRect(x: 0, y: trailerView.bottom + 5, width: view.width, height: 300)
             }
         }
     }
@@ -62,19 +60,12 @@ class MovieDetailsViewController: UIViewController, YTPlayerViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .secondarySystemBackground
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "bookmark",
-                                                                           withConfiguration: UIImage.SymbolConfiguration(pointSize: 20,
-                                                                                                                          weight: .regular)),
-                                                            style: .done,
-                                                            target: self,
-                                                            action: #selector(didTapSave))
-//        fetchData(for: id)
-        trailerView.trailerPlayer.load(withVideoId: "Jvurpf91omw")
-        
+        setUpBarButtonItems()
         appendModels()
-        addSubviews()
+        fetchData(for: id)
         infoTable.delegate = self
         infoTable.dataSource = self
+        addSubviews()
     }
     
     private func addSubviews() {
@@ -87,7 +78,7 @@ class MovieDetailsViewController: UIViewController, YTPlayerViewDelegate {
     }
     
     @objc private func didTapSave() {
-        
+        print("Save Pressed!")
     }
     
     private func fetchData(for id: String) {
@@ -95,15 +86,43 @@ class MovieDetailsViewController: UIViewController, YTPlayerViewDelegate {
                                   expecting: MovieModel.self) { [weak self] result in
             switch result {
             case .success(let result):
-                print(result)
+                self?.fetchTrailerData(for: result.id)
                 DispatchQueue.main.async {
-//                    self?.model = model
-                    
+                    self?.topView.configure(with: result)
+                    self?.ratingView.configure(with: result.ratings)
+                    self?.sections[0].subTitle[0] = result.plot ?? "-"
+                    self?.sections[1].subTitle[0] = result.stars ?? "-"
+                    self?.sections[2].subTitle[0] = result.writers ?? "-"
+                    self?.sections[3].subTitle[0] = result.companies ?? "-"
+                    self?.similarsView.configure(with: result.similars)
                 }
             case .failure(let error):
                 print(error)
             }
         }
+    }
+    
+    private func fetchTrailerData(for id: String) {
+        let urlString = "https://imdb-api.com/en/API/YouTubeTrailer/\(key)/\(id)"
+        let task = URLSession.shared.dataTask(with: URL(string: urlString)!, completionHandler: { [weak self] data, response, error in
+            guard let data = data, error == nil else {
+                print("Something went wrong")
+                return
+            }
+            //have data
+            var result: YouTubeTrailerModel?
+            do {
+                result = try JSONDecoder().decode(YouTubeTrailerModel.self, from: data)
+            } catch {
+                print("Failed to convert \(error.localizedDescription)")
+            }
+    
+            guard let json = result else { return }
+            DispatchQueue.main.async {
+                self?.trailerView.configure(with: json.videoId)
+            }
+        })
+        task.resume()
     }
     
     private func appendModels() {
@@ -114,13 +133,22 @@ class MovieDetailsViewController: UIViewController, YTPlayerViewDelegate {
             MovieInfoTableModel(title: "Directors", subTitle: [""]),
             MovieInfoTableModel(title: "Companies", subTitle: [""])
         ]
-        
-        let model = [HomeModelList(id: "123", image:
-                         "https://m.media-amazon.com/images/M/MV5BMDgxOTdjMzYtZGQxMS00ZTAzLWI4Y2UtMTQzN2VlYjYyZWRiXkEyXkFqcGdeQXVyMTkxNjUyNQ@@._V1_Ratio0.6716_AL_.jpg"),
-                     HomeModelList(id: "123", image: "https://m.media-amazon.com/images/M/MV5BMDgxOTdjMzYtZGQxMS00ZTAzLWI4Y2UtMTQzN2VlYjYyZWRiXkEyXkFqcGdeQXVyMTkxNjUyNQ@@._V1_Ratio0.6716_AL_.jpg"),
-                     HomeModelList(id: "123", image: "https://m.media-amazon.com/images/M/MV5BMDgxOTdjMzYtZGQxMS00ZTAzLWI4Y2UtMTQzN2VlYjYyZWRiXkEyXkFqcGdeQXVyMTkxNjUyNQ@@._V1_Ratio0.6716_AL_.jpg"),
-                     ]
-        similarsView.configure(models: model)
+    }
+    
+    private func setUpBarButtonItems() {
+        let saveButton = UIBarButtonItem(image: UIImage(systemName: "star",
+                                                        withConfiguration: UIImage.SymbolConfiguration(pointSize: 20,
+                                                                                                          weight: .regular)),
+                                                            style: .done,
+                                                            target: self,
+                                                            action: #selector(didTapSave))
+        let shareButton = UIBarButtonItem(image: UIImage(systemName: "square.and.arrow.up",
+                                                         withConfiguration: UIImage.SymbolConfiguration(pointSize: 20,
+                                                                                                           weight: .regular)),
+                                                            style: .done,
+                                                            target: self,
+                                                            action: #selector(didTapSave))
+        navigationItem.rightBarButtonItems = [saveButton, shareButton]
     }
     
     override func viewDidLayoutSubviews() {
@@ -128,10 +156,10 @@ class MovieDetailsViewController: UIViewController, YTPlayerViewDelegate {
         scrollView.frame = view.bounds
         scrollView.contentSize = CGSize(width: view.width, height: 1230)
         topView.frame = CGRect(x: 0, y: -100, width: view.width, height: 480)
-        ratingView.frame = CGRect(x: 5, y: topView.bottom + 5, width: view.width - 10, height: 92)
-        infoTable.frame = CGRect(x: 0, y: ratingView.bottom + 5, width: view.width, height: CGFloat(200))
-        trailerView.frame = CGRect(x: 0, y: infoTable.bottom + 15, width: scrollView.width, height: scrollView.width/2)
-        similarsView.frame = CGRect(x: 0, y: trailerView.bottom + 10, width: view.width, height: 300)
+        ratingView.frame = CGRect(x: 0, y: topView.bottom + 5, width: view.width, height: 92)
+        infoTable.frame = CGRect(x: 0, y: ratingView.bottom, width: view.width, height: CGFloat(200))
+        trailerView.frame = CGRect(x: 0, y: infoTable.bottom, width: scrollView.width, height: scrollView.width/1.8)
+        similarsView.frame = CGRect(x: 0, y: trailerView.bottom + 5, width: view.width, height: 300)
     }
 }
 
@@ -184,7 +212,7 @@ extension MovieDetailsViewController: UITableViewDelegate, UITableViewDataSource
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.row != 0 {
-            return 200
+            return 120
         }
         return 40
     }

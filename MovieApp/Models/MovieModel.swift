@@ -8,7 +8,10 @@
 import Foundation
 
 struct MovieModel: Codable {
+    var id: String
+    var title: String?
     var type: String?
+    var image: String?
     var releaseDate: String?
     var runtimeStr: String?
     var plot: String?
@@ -17,12 +20,19 @@ struct MovieModel: Codable {
     var stars: String?
     var genres: String?
     var companies: String?
-    var imDbRating: String?
-    var metacriticRating: String?
-    var rottenTomatoes: String?
+//    var imDbRating: String?
+//    var metacriticRating: String?
+//    var rottenTomatoes: String?
+    var ratings: Ratings
     var posters: Posters?
     var trailer: Link?
-    var similars: [SimilarsList]
+    var similars: [SimilarsList]?
+}
+
+struct Ratings: Codable {
+    var imDb: String?
+    var metacritic: String?
+    var rottenTomatoes: String?
 }
 
 struct Posters: Codable {

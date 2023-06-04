@@ -13,8 +13,6 @@ class MovieDetailsInfoTableViewCell: UITableViewCell {
     
     let textView: UITextView = {
         let text = UITextView()
-        text.text = "Lorem ipsum, Lorem ipsum, Lorem ipsum, Lorem ipsum, Lorem ipsum, Lorem ipsum, Lorem ipsum, Lorem ipsum"
-        text.backgroundColor = .orange
         text.isEditable = false
         return text
     }()

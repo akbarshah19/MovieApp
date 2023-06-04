@@ -32,10 +32,25 @@ class MovieDetailsSimilarsView: UIView, UITableViewDelegate, UITableViewDataSour
         tableView.frame = bounds
     }
     
-    private var models = [HomeModelList]()
-    func configure(models: [HomeModelList]) {
-        self.models = models
-        tableView.reloadData()
+    private var models = [HomeModelList]() {
+        didSet {
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        }
+    }
+    
+    func configure(with models: [SimilarsList]?) {
+        guard let safeModels = models else {
+            return
+        }
+        
+        for i in safeModels {
+            if let imageUrl = i.image {
+                let sampleModel = HomeModelList(id: i.id, image: imageUrl)
+                self.models.append(sampleModel)
+            }
+        }
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -44,8 +59,14 @@ class MovieDetailsSimilarsView: UIView, UITableViewDelegate, UITableViewDataSour
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: HomeTableViewCell.identifier, for: indexPath) as! HomeTableViewCell
-        if indexPath.row == 0 {
-            cell.label.text = "Similars"
+        cell.label.text = "Similars"
+        if models.count > 10 {
+            var lessModels = [HomeModelList]()
+            for i in 0...9 {
+                lessModels.append(models[i])
+            }
+            cell.configure(with: lessModels)
+        } else {
             cell.configure(with: models)
         }
         return cell

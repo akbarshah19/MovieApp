@@ -27,8 +27,8 @@ class MovieDetailsTopView: UIView {
         label.text = "Movie"
         label.textAlignment = .center
         label.font = .systemFont(ofSize: 30, weight: .heavy)
-        label.layer.borderColor = UIColor.red.cgColor
-        label.layer.borderWidth = 1
+//        label.layer.borderColor = UIColor.red.cgColor
+//        label.layer.borderWidth = 1
         return label
     }()
     
@@ -37,18 +37,16 @@ class MovieDetailsTopView: UIView {
         label.text = "Action, Triller, Horror"
         label.textAlignment = .center
         label.font = .systemFont(ofSize: 14, weight: .regular)
-        label.layer.borderColor = UIColor.red.cgColor
-        label.layer.borderWidth = 1
+//        label.layer.borderColor = UIColor.red.cgColor
+//        label.layer.borderWidth = 1
         return label
     }()
     
-    let releaseLeabel: UILabel = {
+    let releaseLabel: UILabel = {
         let label = UILabel()
         label.text = "2023"
         label.textAlignment = .center
         label.font = .systemFont(ofSize: 14, weight: .regular)
-        label.layer.borderColor = UIColor.red.cgColor
-        label.layer.borderWidth = 1
         return label
     }()
     
@@ -57,8 +55,6 @@ class MovieDetailsTopView: UIView {
         label.text = "1 h 30 min"
         label.textAlignment = .center
         label.font = .systemFont(ofSize: 14, weight: .regular)
-        label.layer.borderColor = UIColor.red.cgColor
-        label.layer.borderWidth = 1
         return label
     }()
     
@@ -88,12 +84,47 @@ class MovieDetailsTopView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         clipsToBounds = true
-        backgroundColor = .orange
+        backgroundColor = .systemBackground
         addSubviews()
-        
         shimmerButton.contentView = watchButton
+    }
+    
+    func configure(with model: MovieModel) {
+        if let bgImageUrl = model.posters?.backdrops?.first?.link {
+            backgroundImage.sd_setImage(with: URL(string: bgImageUrl))
+        } else {
+            backgroundImage.image = UIImage(named: "swift")
+        }
         
-
+        if let imageUrlString = model.image  {
+            movieImage.sd_setImage(with: URL(string: imageUrlString))
+        } else {
+            movieImage.image = UIImage(named: "images")
+        }
+        
+        if let title = model.title {
+            movieLabel.text = title
+        } else {
+            movieLabel.text = "-"
+        }
+        
+        if let genres = model.genres {
+            genreLabel.text = genres
+        } else {
+            genreLabel.text = "-"
+        }
+        
+        if let runtime = model.runtimeStr {
+            runtimeLabel.text = runtime
+        } else {
+            runtimeLabel.text = "-"
+        }
+        
+        if let date = model.releaseDate {
+            releaseLabel.text = date
+        } else {
+            releaseLabel.text = "-"
+        }
     }
     
     required init?(coder: NSCoder) {
@@ -105,7 +136,7 @@ class MovieDetailsTopView: UIView {
         addSubview(movieImage)
         addSubview(movieLabel)
         addSubview(genreLabel)
-        addSubview(releaseLeabel)
+        addSubview(releaseLabel)
         addSubview(runtimeLabel)
         addSubview(shimmerButton)
     }
@@ -121,8 +152,8 @@ class MovieDetailsTopView: UIView {
         movieLabel.frame = CGRect(x: 20, y: movieImage.bottom + 5, width: width - 40, height: 35)
         genreLabel.frame = CGRect(x: 20, y: movieLabel.bottom, width: width - 40, height: 20)
         runtimeLabel.frame = CGRect(x: 20, y: genreLabel.bottom, width: width/2 - 10, height: 20)
-        releaseLeabel.frame = CGRect(x: width/2 + 10, y: genreLabel.bottom, width: width/2 - 30, height: 20)
-        shimmerButton.frame = CGRect(x: 20, y: releaseLeabel.bottom + 10, width: width - 40, height: 50)
+        releaseLabel.frame = CGRect(x: width/2 + 10, y: genreLabel.bottom, width: width/2 - 30, height: 20)
+        shimmerButton.frame = CGRect(x: 20, y: releaseLabel.bottom + 10, width: width - 40, height: 50)
     }
     
     private func addGradient() {
@@ -130,7 +161,7 @@ class MovieDetailsTopView: UIView {
         backgroundImage.image = UIImage(named: "swift")
         let gradient = CAGradientLayer()
         gradient.frame = backgroundImage.bounds
-        gradient.colors = [UIColor.clear.cgColor, UIColor.orange.cgColor]
+        gradient.colors = [UIColor.clear.cgColor, UIColor.systemBackground.cgColor]
         backgroundImage.layer.insertSublayer(gradient, at: 0)
     }
 }

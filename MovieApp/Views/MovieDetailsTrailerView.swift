@@ -22,6 +22,7 @@ class MovieDetailsTrailerView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         clipsToBounds = true
+        backgroundColor = .systemBackground
         addSubview(trailerPlayer)
     }
     
@@ -29,8 +30,9 @@ class MovieDetailsTrailerView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(videoID: String) {
-        
+    func configure(with videoID: String?) {
+        guard let id = videoID else { return }
+        trailerPlayer.load(withVideoId: id)
     }
     
     override func layoutSubviews() {

@@ -13,8 +13,6 @@ class MovieDetailsRatingView: UIView {
         let label = UILabel()
         label.text = "IMDB:"
         label.font = .systemFont(ofSize: 16, weight: .semibold)
-        label.layer.borderWidth = 1
-        label.layer.borderColor = UIColor.red.cgColor
         label.textAlignment = .left
         label.textColor = .secondaryLabel
         return label
@@ -22,17 +20,15 @@ class MovieDetailsRatingView: UIView {
     
     let imdbProgress: UIProgressView = {
         let view = UIProgressView()
-        view.progress = 0.5
-        view.tintColor = .yellow
+        view.progress = 1.0
+        view.tintColor = .secondaryLabel
         return view
     }()
     
     let imdbRating: UILabel = {
         let label = UILabel()
-        label.text = "8.5/10"
+        label.text = "-/10"
         label.font = .systemFont(ofSize: 18, weight: .semibold)
-        label.layer.borderWidth = 1
-        label.layer.borderColor = UIColor.red.cgColor
         label.textAlignment = .right
         label.textColor = .secondaryLabel
         label.font = .systemFont(ofSize: 14, weight: .thin)
@@ -43,8 +39,6 @@ class MovieDetailsRatingView: UIView {
         let label = UILabel()
         label.text = "Metacritic:"
         label.font = .systemFont(ofSize: 16, weight: .semibold)
-        label.layer.borderWidth = 1
-        label.layer.borderColor = UIColor.red.cgColor
         label.textAlignment = .left
         label.textColor = .secondaryLabel
         return label
@@ -52,17 +46,15 @@ class MovieDetailsRatingView: UIView {
     
     let metaCriticProgress: UIProgressView = {
         let view = UIProgressView()
-        view.progress = 0.5
-        view.tintColor = .yellow
+        view.progress = 1.0
+        view.tintColor = .secondaryLabel
         return view
     }()
     
     let metaCriticRating: UILabel = {
         let label = UILabel()
-        label.text = "8.5/10"
+        label.text = "-/10"
         label.font = .systemFont(ofSize: 18, weight: .semibold)
-        label.layer.borderWidth = 1
-        label.layer.borderColor = UIColor.red.cgColor
         label.textAlignment = .right
         label.textColor = .secondaryLabel
         label.font = .systemFont(ofSize: 14, weight: .thin)
@@ -73,8 +65,6 @@ class MovieDetailsRatingView: UIView {
         let label = UILabel()
         label.text = "Rotten Tomatoes:"
         label.font = .systemFont(ofSize: 16, weight: .semibold)
-        label.layer.borderWidth = 1
-        label.layer.borderColor = UIColor.red.cgColor
         label.textAlignment = .left
         label.textColor = .secondaryLabel
         return label
@@ -82,17 +72,15 @@ class MovieDetailsRatingView: UIView {
     
     let rottenTomatoesProgress: UIProgressView = {
         let view = UIProgressView()
-        view.progress = 0.5
-        view.tintColor = .yellow
+        view.progress = 1.0
+        view.tintColor = .secondaryLabel
         return view
     }()
     
     let rottenTomatoesRating: UILabel = {
         let label = UILabel()
-        label.text = "8.5/10"
+        label.text = "-/10"
         label.font = .systemFont(ofSize: 18, weight: .semibold)
-        label.layer.borderWidth = 1
-        label.layer.borderColor = UIColor.red.cgColor
         label.textAlignment = .right
         label.textColor = .secondaryLabel
         label.font = .systemFont(ofSize: 14, weight: .thin)
@@ -102,7 +90,7 @@ class MovieDetailsRatingView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         clipsToBounds = true
-        backgroundColor = .secondarySystemBackground
+        backgroundColor = .systemBackground
         
         addSubview(imdbLabel)
         addSubview(imdbProgress)
@@ -117,6 +105,35 @@ class MovieDetailsRatingView: UIView {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func configure(with model: Ratings) {
+        if let rating = model.imDb {
+            let a = (rating as NSString).floatValue
+            imdbRating.text = "\(rating)/10"
+            imdbProgress.progress = a/10
+            imdbProgress.tintColor = .orange
+        } else {
+            imdbRating.text = "-/10"
+        }
+        
+        if let rating = model.metacritic {
+            let a = (rating as NSString).floatValue
+            metaCriticRating.text = "\(a/10)/10"
+            metaCriticProgress.progress = Float(a)/100
+            metaCriticProgress.tintColor = .orange
+        } else {
+            metaCriticRating.text = "-/10"
+        }
+        
+        if let rating = model.rottenTomatoes {
+            let a = (rating as NSString).floatValue
+            rottenTomatoesRating.text = "\(a/10)/10"
+            rottenTomatoesProgress.progress = Float(a)/100
+            rottenTomatoesProgress.tintColor = .orange
+        } else {
+            rottenTomatoesRating.text = "-/10"
+        }
     }
     
     override func layoutSubviews() {
