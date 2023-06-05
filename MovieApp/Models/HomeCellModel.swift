@@ -13,5 +13,7 @@ struct HomeCellModel: Codable {
 
 struct HomeModelList: Codable {
     var id: String
+    var title: String
     var image: String
+    var imDbRating: String
 }

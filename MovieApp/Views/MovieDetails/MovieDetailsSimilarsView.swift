@@ -9,6 +9,7 @@ import UIKit
 
 protocol MovieDetailsSimilarsViewDelegate: AnyObject {
     func didTapSeeAll(models: [HomeModelList])
+    func didTapOnMovie(id: String)
 }
 
 class MovieDetailsSimilarsView: UIView, UITableViewDelegate, UITableViewDataSource {
@@ -51,8 +52,8 @@ class MovieDetailsSimilarsView: UIView, UITableViewDelegate, UITableViewDataSour
         }
         
         for i in safeModels {
-            if let imageUrl = i.image {
-                let sampleModel = HomeModelList(id: i.id, image: imageUrl)
+            if let imageUrl = i.image, let title = i.title, let imdbRating = i.imDbRating {
+                let sampleModel = HomeModelList(id: i.id, title: title, image: imageUrl, imDbRating: imdbRating)
                 self.models.append(sampleModel)
             }
         }
@@ -64,6 +65,7 @@ class MovieDetailsSimilarsView: UIView, UITableViewDelegate, UITableViewDataSour
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: HomeTableViewCell.identifier, for: indexPath) as! HomeTableViewCell
+        cell.delegate = self
         cell.label.text = "Similars"
         if models.count > 10 {
             var lessModels = [HomeModelList]()
@@ -79,10 +81,20 @@ class MovieDetailsSimilarsView: UIView, UITableViewDelegate, UITableViewDataSour
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        delegate?.didTapSeeAll(models: models)
+        delegate?.didTapOnMovie(id: models[indexPath.row].id)
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 300
+    }
+}
+
+extension MovieDetailsSimilarsView: HomeTableViewCellDelegate {
+    func didTapOnMovie(id: String) {
+        delegate?.didTapOnMovie(id: id)
+    }
+    
+    func didTapSeeAll(models: [HomeModelList]) {
+        delegate?.didTapSeeAll(models: models)
     }
 }

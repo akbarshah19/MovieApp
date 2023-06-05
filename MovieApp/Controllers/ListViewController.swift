@@ -40,7 +40,9 @@ extension ListViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let newModel = SeaarchModelList(id: models[indexPath.row].id, image: models[indexPath.row].image, title: )
+        let newModel = SeaarchModelList(id: models[indexPath.row].id,
+                                        image: models[indexPath.row].image,
+                                        title: models[indexPath.row].title)
         
         let cell = tableView.dequeueReusableCell(withIdentifier: SearchTableViewCell.identifier,
                                                  for: indexPath) as! SearchTableViewCell

@@ -8,14 +8,15 @@
 import UIKit
 
 protocol HomeTableViewCellDelegate: AnyObject {
-    func didTapSeeAll()
+    func didTapSeeAll(models: [HomeModelList])
+    func didTapOnMovie(id: String)
 }
 
 /// Cell with label and collectionView
 class HomeTableViewCell: UITableViewCell, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     static let identifier = "HomeTableViewCell"
     
-    var delegate: HomeTableViewCellDelegate?
+    weak var delegate: HomeTableViewCellDelegate?
     
     public let label: UILabel = {
         let label = UILabel()
@@ -77,7 +78,7 @@ class HomeTableViewCell: UITableViewCell, UICollectionViewDelegate, UICollection
     }
     
     @objc func didTapSeeAllButton() {
-        delegate?.didTapSeeAll()
+        delegate?.didTapSeeAll(models: models)
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -92,8 +93,13 @@ class HomeTableViewCell: UITableViewCell, UICollectionViewDelegate, UICollection
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HomeCollectionViewCell.identifier,
                                                       for: indexPath) as! HomeCollectionViewCell
-        cell.configure(with: models[indexPath.row].image)
+        cell.configure(with: models[indexPath.row])
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        collectionView.deselectItem(at: indexPath, animated: true)
+        delegate?.didTapOnMovie(id: models[indexPath.row].id)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

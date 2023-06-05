@@ -139,18 +139,8 @@ class MovieDetailsViewController: UIViewController {
     }
     
     private func setUpBarButtonItems() {
-        let saveButton = UIBarButtonItem(image: UIImage(systemName: "star",
-                                                        withConfiguration: UIImage.SymbolConfiguration(pointSize: 20,
-                                                                                                          weight: .regular)),
-                                                            style: .done,
-                                                            target: self,
-                                                            action: #selector(didTapSave))
-        let shareButton = UIBarButtonItem(image: UIImage(systemName: "square.and.arrow.up",
-                                                         withConfiguration: UIImage.SymbolConfiguration(pointSize: 20,
-                                                                                                           weight: .regular)),
-                                                            style: .done,
-                                                            target: self,
-                                                            action: #selector(didTapSave))
+        let saveButton = UIBarButtonItem(image: UIImage(systemName: "star", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20, weight: .regular)), style: .done, target: self, action: #selector(didTapSave))
+        let shareButton = UIBarButtonItem(image: UIImage(systemName: "square.and.arrow.up", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20, weight: .regular)), style: .done, target: self, action: #selector(didTapSave))
         navigationItem.rightBarButtonItems = [saveButton, shareButton]
     }
     
@@ -235,6 +225,11 @@ extension MovieDetailsViewController: MovieDetailsTopViewDelegate {
 extension MovieDetailsViewController: MovieDetailsSimilarsViewDelegate {
     func didTapSeeAll(models: [HomeModelList]) {
         let vc = ListViewController(models: models)
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    func didTapOnMovie(id: String) {
+        let vc = MovieDetailsViewController(id)
         navigationController?.pushViewController(vc, animated: true)
     }
 }

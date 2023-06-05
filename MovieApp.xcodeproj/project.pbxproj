@@ -117,6 +117,17 @@
 			path = Cells;
 			sourceTree = "<group>";
 		};
+		AD3C35FA2A2DE13A009DA5D1 /* MovieDetails */ = {
+			isa = PBXGroup;
+			children = (
+				AD3E79ED2A28EEBF00E4D6CE /* MovieDetailsTopView.swift */,
+				ADF5B2832A2997B400A2D96C /* MovieDetailsRatingView.swift */,
+				AD016B152A2B547300E7F00F /* MovieDetailsSimilarsView.swift */,
+				AD016B172A2B628000E7F00F /* MovieDetailsTrailerView.swift */,
+			);
+			path = MovieDetails;
+			sourceTree = "<group>";
+		};
 		AD482BB62A18BC3900B961CD /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
@@ -195,10 +206,7 @@
 				ADF937492A0F88B1006EEFA0 /* Assets.xcassets */,
 				ADF9374B2A0F88B1006EEFA0 /* LaunchScreen.storyboard */,
 				AD2597B22A2C572E00F955CE /* Cells */,
-				AD3E79ED2A28EEBF00E4D6CE /* MovieDetailsTopView.swift */,
-				ADF5B2832A2997B400A2D96C /* MovieDetailsRatingView.swift */,
-				AD016B152A2B547300E7F00F /* MovieDetailsSimilarsView.swift */,
-				AD016B172A2B628000E7F00F /* MovieDetailsTrailerView.swift */,
+				AD3C35FA2A2DE13A009DA5D1 /* MovieDetails */,
 			);
 			path = Views;
 			sourceTree = "<group>";
