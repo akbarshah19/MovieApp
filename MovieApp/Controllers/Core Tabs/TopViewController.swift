@@ -14,10 +14,26 @@ class TopPageViewController: UIViewController {
     private let tableView: UITableView = {
         let table = UITableView()
         table.register(TopTableViewCell.self, forCellReuseIdentifier: TopTableViewCell.identifier)
+        table.isHidden = true
         return table
     }()
+    
+    private let spinner: UIActivityIndicatorView = {
+        let spinner = UIActivityIndicatorView()
+        spinner.style = .medium
+        spinner.color = .lightGray
+        spinner.hidesWhenStopped = true
+        return spinner
+    }()
 
-    private var model = [TopCellList]()
+    private var model = [TopCellList]() {
+        didSet {
+            if !model.isEmpty {
+                tableView.isHidden = false
+                spinner.stopAnimating()
+            }
+        }
+    }
     private var topMovies = [TopCellList]()
     private var topTVs = [TopCellList]()
     
@@ -25,7 +41,7 @@ class TopPageViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .secondarySystemBackground
         view.addSubview(tableView)
-        tableView.frame = view.bounds
+        view.addSubview(spinner)
         tableView.delegate = self
         tableView.dataSource = self
                 
@@ -52,6 +68,12 @@ class TopPageViewController: UIViewController {
             model = topTVs
             tableView.reloadData()
         }
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        tableView.frame = view.bounds
+        spinner.frame = view.bounds
     }
     
     /// Generic API request

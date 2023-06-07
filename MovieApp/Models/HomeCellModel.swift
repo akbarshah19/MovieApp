@@ -7,6 +7,13 @@
 
 import Foundation
 
+enum HomeDataType {
+    case mostPopularMovies
+    case mostPopularTVs
+    case comingSoon
+    case inTheaters
+}
+
 struct HomeCellModel: Codable {
     var items: [HomeModelList]
 }

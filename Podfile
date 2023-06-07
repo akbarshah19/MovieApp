@@ -10,5 +10,7 @@ target 'MovieApp' do
 pod 'SDWebImage'
 pod 'ShimmerSwift'
 pod 'youtube-ios-player-helper'
+pod 'SkeletonView'
+pod 'lottie-ios'
 
 end

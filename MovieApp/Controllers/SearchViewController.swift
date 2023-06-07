@@ -11,11 +11,21 @@ class SearchViewController: UIViewController {
     
     let const = Constants()
     let searchBar = UISearchBar()
+//    let animationView = AnimationView()
     
     private let tableView: UITableView = {
         let table = UITableView()
         table.register(SearchTableViewCell.self, forCellReuseIdentifier: SearchTableViewCell.identifier)
+        table.isHidden = true
         return table
+    }()
+    
+    private let spinner: UIActivityIndicatorView = {
+        let spinner = UIActivityIndicatorView()
+        spinner.style = .medium
+        spinner.color = .lightGray
+        spinner.hidesWhenStopped = true
+        return spinner
     }()
     
     override func viewDidAppear(_ animated: Bool) {
@@ -23,12 +33,21 @@ class SearchViewController: UIViewController {
         searchBar.becomeFirstResponder()
     }
     
-    private var model = [SeaarchModelList]()
+    private var model = [SeaarchModelList]() {
+        didSet {
+            if !model.isEmpty {
+                spinner.stopAnimating()
+                tableView.isHidden = false
+            }
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .systemBackground
+        setupAnimation()
         view.addSubview(tableView)
-        tableView.frame = view.bounds
+        view.addSubview(spinner)
         tableView.delegate = self
         tableView.dataSource = self
         
@@ -42,6 +61,13 @@ class SearchViewController: UIViewController {
         searchBar.showsCancelButton = true
         searchBar.placeholder = "Search"
         navigationItem.titleView = searchBar
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        tableView.frame = view.bounds
+//        spinner.frame = CGRect(x: 0, y: 0, width: 50, height: 50)
+        spinner.center = view.center
     }
     
     private func fetchData(for text: String) {
@@ -68,6 +94,10 @@ class SearchViewController: UIViewController {
     @objc func didTapDismiss() {
         dismiss(animated: true)
     }
+    
+    private func setupAnimation() {
+        
+    }
 }
 
 extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
@@ -89,12 +119,13 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 100
+        return 80
     }
 }
 
 extension SearchViewController: UISearchBarDelegate {
     func searchBarShouldEndEditing(_ searchBar: UISearchBar) -> Bool {
+        spinner.startAnimating()
         DispatchQueue.main.async {
             if let cancelButton = searchBar.value(forKey: "cancelButton") as? UIButton {
                 cancelButton.isEnabled = true
@@ -107,9 +138,8 @@ extension SearchViewController: UISearchBarDelegate {
         guard let text = searchBar.text else {
             return
         }
-        print(text)
-        fetchData(for: text)
         searchBar.endEditing(true)
+        fetchData(for: text)
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {

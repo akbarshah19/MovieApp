@@ -14,7 +14,7 @@ struct Constants {
     
     let mostPopularUrl = "https://imdb-api.com/en/API/MostPopularMovies/\(key)"
     let mostPopularTVsUrl = "https://imdb-api.com/en/API/MostPopularTVs/\(key)"
-    let comingSoon = "https://imdb-api.com/en/API/ComingSoon/\(key)"
+    let comingSoonUrl = "https://imdb-api.com/en/API/ComingSoon/\(key)"
     let inTheatersUrl = "https://imdb-api.com/en/API/InTheaters/\(key)"
     
     let topMoviesUrl = "https://imdb-api.com/en/API/Top250Movies/\(key)"

@@ -21,7 +21,8 @@ class SearchTableViewCell: UITableViewCell {
     
     private let cellLabel: UILabel = {
         let label = UILabel()
-        
+        label.numberOfLines = 0
+        label.adjustsFontSizeToFitWidth = true
         return label
     }()
 

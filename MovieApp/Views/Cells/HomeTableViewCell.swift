@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SkeletonView
 
 protocol HomeTableViewCellDelegate: AnyObject {
     func didTapSeeAll(models: [HomeModelList])
@@ -13,7 +14,8 @@ protocol HomeTableViewCellDelegate: AnyObject {
 }
 
 /// Cell with label and collectionView
-class HomeTableViewCell: UITableViewCell, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+class HomeTableViewCell: UITableViewCell, UICollectionViewDelegate, SkeletonCollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    
     static let identifier = "HomeTableViewCell"
     
     weak var delegate: HomeTableViewCellDelegate?
@@ -28,6 +30,7 @@ class HomeTableViewCell: UITableViewCell, UICollectionViewDelegate, UICollection
         let view = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout.init())
         view.register(HomeCollectionViewCell.self,
                       forCellWithReuseIdentifier: HomeCollectionViewCell.identifier)
+        
         return view
     }()
     
@@ -40,6 +43,9 @@ class HomeTableViewCell: UITableViewCell, UICollectionViewDelegate, UICollection
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        isSkeletonable = true
+        collectionView.isSkeletonable = true
+        
         selectionStyle = .none
         contentView.clipsToBounds = true
         contentView.addSubview(seeAllButton)
@@ -83,6 +89,10 @@ class HomeTableViewCell: UITableViewCell, UICollectionViewDelegate, UICollection
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return models.count
+    }
+    
+    func collectionSkeletonView(_ skeletonView: UICollectionView, cellIdentifierForItemAt indexPath: IndexPath) -> SkeletonView.ReusableCellIdentifier {
+        HomeCollectionViewCell.identifier
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {

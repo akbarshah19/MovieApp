@@ -1,26 +1,34 @@
 PODS:
+  - lottie-ios (4.2.0)
   - SDWebImage (5.15.5):
     - SDWebImage/Core (= 5.15.5)
   - SDWebImage/Core (5.15.5)
   - ShimmerSwift (2.1.1)
+  - SkeletonView (1.30.4)
   - youtube-ios-player-helper (1.0.4)
 
 DEPENDENCIES:
+  - lottie-ios
   - SDWebImage
   - ShimmerSwift
+  - SkeletonView
   - youtube-ios-player-helper
 
 SPEC REPOS:
   trunk:
+    - lottie-ios
     - SDWebImage
     - ShimmerSwift
+    - SkeletonView
     - youtube-ios-player-helper
 
 SPEC CHECKSUMS:
+  lottie-ios: 809ecf2d460ed650a6aed7aa88b2ec45fab4779c
   SDWebImage: fd7e1a22f00303e058058278639bf6196ee431fe
   ShimmerSwift: f7ed2daf9c246de8299dfd9e12c6ab465cba9842
+  SkeletonView: 5a050f6411e697abd4cda0a8d767013399dccd69
   youtube-ios-player-helper: e9b97535e816db3152179d84d999bc1807ecd689
 
-PODFILE CHECKSUM: 75ae6b478118eaa606f4efb2d45798801e975ab1
+PODFILE CHECKSUM: 26457fc2d4ee5e9c8321f39e4254ea55627e6dd3
 
 COCOAPODS: 1.11.3
