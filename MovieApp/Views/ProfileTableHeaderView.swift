@@ -12,15 +12,26 @@ class ProfileTableHeaderView: UIView {
     let image: UIImageView = {
         let image = UIImageView()
         image.contentMode = .scaleAspectFill
-        image.backgroundColor = .red
         image.clipsToBounds = true
         image.layer.masksToBounds = true
+        image.image = UIImage(named: "person")
         return image
     }()
     
     let usernameLabel: UILabel = {
         let label = UILabel()
-        label.backgroundColor = .red
+        label.textAlignment = .center
+        label.font = .systemFont(ofSize: 30, weight: .semibold)
+        label.text = "Akbar Jumanazarov"
+        return label
+    }()
+    
+    let emailLabel: UILabel = {
+        let label = UILabel()
+        label.textAlignment = .center
+        label.font = .systemFont(ofSize: 12, weight: .regular)
+        label.textColor = .secondaryLabel
+        label.text = "ciphertheworld@gmail.com"
         return label
     }()
     
@@ -28,9 +39,10 @@ class ProfileTableHeaderView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         clipsToBounds = true
-        backgroundColor = .secondarySystemBackground
+        backgroundColor = .systemBackground
         addSubview(image)
         addSubview(usernameLabel)
+        addSubview(emailLabel)
     }
     
     required init?(coder: NSCoder) {
@@ -39,10 +51,13 @@ class ProfileTableHeaderView: UIView {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        image.frame = CGRect(x: 10, y: 10, width: height - 20, height: height - 20)
-        image.layer.cornerRadius = (height - 20)/2
-        usernameLabel.frame = CGRect(x: image.right + 10, y: 0, width: width - image.width - 30, height: 50)
-        usernameLabel.center.y = center.y
+        usernameLabel.frame = CGRect(x: 16, y: bottom - 35 - 15 - 15, width: width - 32, height: 35)
+        emailLabel.frame = CGRect(x: 16, y: usernameLabel.bottom, width: width - 32, height: 15)
+        let imageHeight = height - usernameLabel.height - emailLabel.height - 10 - 10 - 10
+        image.frame = CGRect(x: 0, y: 10, width: imageHeight, height: imageHeight)
+        image.center.x = center.x
+        image.layer.cornerRadius = (imageHeight)/2
+
     }
 
 }

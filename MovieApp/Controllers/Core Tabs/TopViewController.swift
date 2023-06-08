@@ -39,7 +39,7 @@ class TopPageViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .secondarySystemBackground
+        view.backgroundColor = .systemBackground
         view.addSubview(tableView)
         view.addSubview(spinner)
         tableView.delegate = self
