@@ -21,7 +21,6 @@ class ProfileViewController: UIViewController {
         view.backgroundColor = .secondarySystemBackground
         tableView.delegate = self
         tableView.dataSource = self
-        
         addSuviews()
         tableView.tableHeaderView = tableHeaderView
         let settingsButton = UIBarButtonItem(image: UIImage(systemName: "gear"), style: .done, target: self, action: #selector(didTapSettings))

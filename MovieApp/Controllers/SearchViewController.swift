@@ -6,12 +6,12 @@
 //
 
 import UIKit
+import Lottie
 
 class SearchViewController: UIViewController {
     
     let const = Constants()
     let searchBar = UISearchBar()
-//    let animationView = AnimationView()
     
     private let tableView: UITableView = {
         let table = UITableView()
@@ -22,16 +22,20 @@ class SearchViewController: UIViewController {
     
     private let spinner: UIActivityIndicatorView = {
         let spinner = UIActivityIndicatorView()
+        spinner.isHidden = true
         spinner.style = .medium
         spinner.color = .lightGray
         spinner.hidesWhenStopped = true
         return spinner
     }()
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        searchBar.becomeFirstResponder()
-    }
+    let animationView: LottieAnimationView = {
+        let view = LottieAnimationView(name: "searchingAnimation")
+        view.contentMode = .scaleAspectFill
+        view.loopMode = .loop
+        view.play()
+        return view
+    }()
     
     private var model = [SeaarchModelList]() {
         didSet {
@@ -46,8 +50,11 @@ class SearchViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         setupAnimation()
+        searchBar.becomeFirstResponder()
+        view.addSubview(animationView)
         view.addSubview(tableView)
         view.addSubview(spinner)
+        
         tableView.delegate = self
         tableView.dataSource = self
         
@@ -65,8 +72,9 @@ class SearchViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+        animationView.frame = CGRect(x: 0, y: view.safeAreaInsets.top + 50, width: view.width/2, height: view.width/2)
+        animationView.center.x = view.center.x
         tableView.frame = view.bounds
-//        spinner.frame = CGRect(x: 0, y: 0, width: 50, height: 50)
         spinner.center = view.center
     }
     
@@ -125,7 +133,6 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
 
 extension SearchViewController: UISearchBarDelegate {
     func searchBarShouldEndEditing(_ searchBar: UISearchBar) -> Bool {
-        spinner.startAnimating()
         DispatchQueue.main.async {
             if let cancelButton = searchBar.value(forKey: "cancelButton") as? UIButton {
                 cancelButton.isEnabled = true
@@ -139,6 +146,9 @@ extension SearchViewController: UISearchBarDelegate {
             return
         }
         searchBar.endEditing(true)
+        spinner.isHidden = false
+        animationView.isHidden = true
+        spinner.startAnimating()
         fetchData(for: text)
     }
     

@@ -20,8 +20,7 @@ class MovieDetailsTopView: UIView {
     let movieImage: UIImageView = {
         let image = UIImageView()
         image.contentMode = .scaleAspectFill
-        image.layer.borderColor = UIColor.red.cgColor
-        image.layer.borderWidth = 1
+        image.backgroundColor = .secondaryLabel
         image.layer.masksToBounds = true
         image.clipsToBounds = true
         image.layer.cornerRadius = 12

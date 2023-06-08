@@ -39,14 +39,14 @@ class HomeViewController: UIViewController {
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "t.circle"), style: .done, target: self, action: #selector(didTapTest))
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        if mostPopularMovies.isEmpty && mostPopularTVs.isEmpty && comingSoon.isEmpty && inTheaters.isEmpty {
-            tableView.showAnimatedGradientSkeleton(usingGradient: .init(baseColor: .skeletonDefault),
-                                                   animation: nil,
-                                                   transition: .crossDissolve(0.25))
-        }
-    }
+//    override func viewDidAppear(_ animated: Bool) {
+//        super.viewDidAppear(animated)
+//        if mostPopularMovies.isEmpty && mostPopularTVs.isEmpty && comingSoon.isEmpty && inTheaters.isEmpty {
+//            tableView.showAnimatedGradientSkeleton(usingGradient: .init(baseColor: .skeletonDefault),
+//                                                   animation: nil,
+//                                                   transition: .crossDissolve(0.25))
+//        }
+//    }
     
     @objc private func didTapTest() {
         let vc = MovieDetailsViewController("123")
